@@ -50,23 +50,40 @@ if (is_moving) {
 } else {
     // --- Player is IDLE ---
     
-    // Set the correct idle sprite based on the last facing direction
-    switch (facing) {
-        case DIRECTION.DOWN:
-            sprite_index = spr_idle;
-            break;
-        case DIRECTION.UP:
-            sprite_index = spr_idle_back;
-            break;
-        case DIRECTION.LEFT:
-        case DIRECTION.RIGHT:
-            // Since there are no spr_idle_left or spr_idle_right,
-            // we default to the front-facing idle sprite.
-            sprite_index = spr_idle;
-            break;
-    }
-    
     // Stop the animation on the first frame for a static idle pose
     image_index = 0;
     image_speed = 0;
+    
+    // Set the correct idle sprite based on the last facing direction
+    // UPDATED: Replaced asset_exists with try/catch to prevent crashing.
+    switch (facing) {
+        case DIRECTION.DOWN:
+            try {
+                sprite_index = spr_idle;
+            } catch (_e) {
+                show_debug_message("ERROR: Failed to assign 'spr_idle'. The asset does not exist or the name is misspelled. Please check the Asset Browser.");
+            }
+            break;
+        case DIRECTION.UP:
+            try {
+                sprite_index = spr_idle_back;
+            } catch (_e) {
+                show_debug_message("ERROR: Failed to assign 'spr_idle_back'. Check asset name.");
+            }
+            break;
+        case DIRECTION.LEFT:
+            try {
+                sprite_index = spr_idle_left;
+            } catch (_e) {
+                show_debug_message("ERROR: Failed to assign 'spr_idle_left'. Check asset name.");
+            }
+            break;
+        case DIRECTION.RIGHT:
+            try {
+                sprite_index = spr_idle_right;
+            } catch (_e) {
+                show_debug_message("ERROR: Failed to assign 'spr_idle_right'. Check asset name.");
+            }
+            break;
+    }
 }
