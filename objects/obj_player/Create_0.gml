@@ -1,5 +1,6 @@
-move_speed = 0.9;
+// In the Create Event of obj_player
 
-horizontal_speed = 0;
-vertical_speed = 0;
+move_speed = 4;
 
+// Add this line. It will track if the player is facing up or not.
+is_facing_up = false;
